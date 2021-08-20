@@ -43,7 +43,7 @@ def handle_message(event):
 
         data_input = event.message.text.split(' ')
 
-        line_bot_api.reply_message("123")
+        line_bot_api.reply_message(event.replyToken , TextSendMessage(text="123"))
 
         date = data_input[0].split('/')
         if len(date[0]) != 4:
