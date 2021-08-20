@@ -43,8 +43,6 @@ def handle_message(event):
 
         data_input = event.message.text.split(' ')
 
-        line_bot_api.reply_message(event.replyToken , TextSendMessage(text="123"))
-
         date = data_input[0].split('/')
         if len(date[0]) != 4:
             date.insert(0, '2021')
@@ -70,8 +68,7 @@ def handle_message(event):
         start_station = data_input[2]
         end_station = data_input[3]
 
-        trainQuery.trainQuery(start_station, end_station,
-                              ride_date, start_time, end_time)
+        trainQuery.trainQuery(start_station, end_station, ride_date, start_time, end_time)
 
         record_a = []
         record_a.append({
@@ -135,7 +132,7 @@ def handle_message(event):
         qureyMessage_file.close()
 
         qureyMessage = json.load(open('qureyMessage.json','r',encoding='utf-8'))
-        line_bot_api.reply_message(event.replyToken, FlexSendMessage(qureyMessage))
+        line_bot_api.reply_message(FlexSendMessage(qureyMessage))
 
 if __name__ == "__main__":
     app.run() #https://trainlinebot-ycpin.herokuapp.com/callback 

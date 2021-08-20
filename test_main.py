@@ -96,3 +96,5 @@ qureyMessage_file = open(
 json.dump(output_data, qureyMessage_file)
 
 qureyMessage_file.close()
+
+print("Test Success!")
