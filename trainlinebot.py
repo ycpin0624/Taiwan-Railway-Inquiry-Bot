@@ -133,7 +133,7 @@ def handle_message(event):
         qureyMessage_file.close()
 
         qureyMessage = json.load(open('qureyMessage.json','r',encoding='utf-8'))
-        line_bot_api.reply_message(event.replyToken, FlexSendMessage(qureyMessage))
+        line_bot_api.reply_message("3214")
 
 if __name__ == "__main__":
-    app.run()
+    app.run() #https://trainlinebot-ycpin.herokuapp.com/callback 
