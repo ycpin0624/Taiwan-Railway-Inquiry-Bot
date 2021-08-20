@@ -132,7 +132,7 @@ def handle_message(event):
         qureyMessage_file.close()
 
         alt_text = "查詢成功！"
-        line_bot_api.reply_message(event.replyToken, FlexSendMessage(alt_text, output_data))
+        line_bot_api.reply_message(event.reply_token, FlexSendMessage(alt_text, output_data))
 
 if __name__ == "__main__":
     app.run() #https://trainlinebot-ycpin.herokuapp.com/callback 
