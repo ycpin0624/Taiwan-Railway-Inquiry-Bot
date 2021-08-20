@@ -41,7 +41,7 @@ def callback():
 def handle_message(event):
     if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":  # 排除預設資料
         # 輸入：日期 時間 起點 終點
-
+        
         data_input = event.message.text.split(' ')
 
         date = data_input[0].split('/')
@@ -80,53 +80,59 @@ def handle_message(event):
             "size": "xl",
             "color": "#0066cc"
         })
-        record_b = []
 
+        elements = [] 
+
+        # 產生輸出樣式
         with open('trainData.csv', encoding='utf-8') as csvfile:
             rows = csv.DictReader(csvfile)
             for row in rows:
-                if(row['訂票'] == '可'):
-                    flexMessage_b_file = open(
-                        'replyMessage/flexMessage_b.json', 'r', encoding='utf-8')
-                    input_file = flexMessage_b_file.read()
+                if(row['訂票'] == '可'): # 可訂票車次
+                    able_to_booking_file = open(
+                        'replyMessage/able_to_booking.json', 'r', encoding='utf-8')
+                    input_file = able_to_booking_file.read()
                     input_data = json.loads(input_file)
 
                     input_data["body"]["contents"][0]["text"] = row['車種車次']
                     input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
                         ' - ' + row['抵達時間']
                     input_data["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
-                    input_data["footer"]["contents"][0]["action"]["text"] = "booking" + row['車種車次']
+                    input_data["footer"]["contents"][0]["action"]["text"] = "booking-" + row['車種車次']
 
-                    record_b.append(input_data)
-                    flexMessage_b_file.close()
-                else:
-                    flexMessage_aElement_file = open(
-                        'replyMessage/flexMessage_aElement.json', 'r', encoding='utf-8')
-                    input_file = flexMessage_aElement_file.read()
+                    elements.append(input_data)
+                    able_to_booking_file.close()
+                else: # 不可訂票車次
+                    able_to_booking_file = open(
+                        'replyMessage/able_to_booking.json', 'r', encoding='utf-8')
+                    input_file = able_to_booking_file.read()
                     input_data = json.loads(input_file)
 
-                    input_data["contents"][1]["contents"][1]["text"] = row['出發時間'] + \
+                    input_data["body"]["contents"][0]["text"] = row['車種車次']
+                    input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
                         ' - ' + row['抵達時間']
-                    record_a.append(input_data)
-                    flexMessage_aElement_file.close()
+                    input_data["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
+                    input_data["footer"]["contents"][0]["action"]["text"] = "booking-" + row['車種車次']
 
-        flexMessage_a_file = open(
-            'replyMessage/flexMessage_a.json', 'r', encoding='utf-8')
-        input_file = flexMessage_a_file.read()
-        input_data = json.loads(input_file)
-        input_data["body"]["contents"] = record_a
+                    elements.append(input_data)
+                    able_to_booking_file.close()
 
-        record_b.insert(0, input_data)
+        # flexMessage_a_file = open(
+        #     'replyMessage/flexMessage_a.json', 'r', encoding='utf-8')
+        # input_file = flexMessage_a_file.read()
+        # input_data = json.loads(input_file)
+        # input_data["body"]["contents"] = record_a
+
+        # elements.insert(0, input_data)
         output_data = {
             "type": "carousel",
-            "contents": record_b
+            "contents": elements
         }
 
         qureyMessage_file = open(
             'replyMessage/qureyMessage.json', 'w', encoding='utf-8')
+
         json.dump(output_data, qureyMessage_file)
 
-        flexMessage_a_file.close()
         qureyMessage_file.close()
 
 if __name__ == "__main__":

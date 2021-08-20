@@ -1,0 +1,21 @@
+{
+    "type": "bubble",
+    "hero": {
+        "type": "image",
+        "url": "https://static.vecteezy.com/system/resources/previews/000/135/650/original/vector-high-speed-rail-tgv-city-train-lanscape-ilustration.jpg",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover",
+        "action": {
+            "type": "uri",
+            "uri": "http://linecorp.com/"
+        },
+        "margin": "none"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [],
+        "backgroundColor": "#d2e9ff"
+    }
+}
