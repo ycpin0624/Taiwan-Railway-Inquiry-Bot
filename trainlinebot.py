@@ -131,7 +131,7 @@ def handle_message(event):
         json.dump(output_data, qureyMessage_file)
         qureyMessage_file.close()
 
-        qureyMessage = json.load(open('qureyMessage.json','r',encoding='utf-8'))
+        qureyMessage = json.load(open('replyMessage/qureyMessage.json','r',encoding='utf-8'))
         line_bot_api.reply_message(FlexSendMessage(qureyMessage))
 
 if __name__ == "__main__":
