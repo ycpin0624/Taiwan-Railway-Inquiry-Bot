@@ -17,7 +17,6 @@ line_bot_api = LineBotApi(
     'jJisTObx7OduP362CboSPS8X3vj9XBeSv8IYFwI8f+/v7EIjZfZkuJtJmigbcNNmgzXEV0WRoKe9h7dMOoU6Un6Q3Mt395VW5b1RgGqgatjfuuWOGT0PXfw7t/vOO3c2G30IA8aVgZ5c4YygTvdLIQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('428e771830a916031feb0a3f0d239ce5')
 
-
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -130,10 +129,11 @@ def handle_message(event):
 
         qureyMessage_file = open(
             'replyMessage/qureyMessage.json', 'w', encoding='utf-8')
-
         json.dump(output_data, qureyMessage_file)
-
         qureyMessage_file.close()
+
+        qureyMessage = json.load(open('qureyMessage.json','r',encoding='utf-8'))
+        line_bot_api.reply_message(event.replyToken, FlexSendMessage(qureyMessage))
 
 if __name__ == "__main__":
     app.run()
