@@ -43,6 +43,8 @@ def handle_message(event):
 
         data_input = event.message.text.split(' ')
 
+        line_bot_api.reply_message("123")
+
         date = data_input[0].split('/')
         if len(date[0]) != 4:
             date.insert(0, '2021')
@@ -133,7 +135,7 @@ def handle_message(event):
         qureyMessage_file.close()
 
         qureyMessage = json.load(open('qureyMessage.json','r',encoding='utf-8'))
-        line_bot_api.reply_message("3214")
+        line_bot_api.reply_message(event.replyToken, FlexSendMessage(qureyMessage))
 
 if __name__ == "__main__":
     app.run() #https://trainlinebot-ycpin.herokuapp.com/callback 
