@@ -128,11 +128,11 @@ def handle_message(event):
 
         qureyMessage_file = open(
             'replyMessage/qureyMessage.json', 'w', encoding='utf-8')
-        json.dump(output_data, qureyMessage_file)
+        json.dump(output_data, qureyMessage_file) # 傳送結果
         qureyMessage_file.close()
 
         alt_text = "查詢成功！"
         line_bot_api.reply_message(event.reply_token, FlexSendMessage(alt_text, output_data))
 
 if __name__ == "__main__":
-    app.run() #https://trainlinebot-ycpin.herokuapp.com/callback 
+    app.run()

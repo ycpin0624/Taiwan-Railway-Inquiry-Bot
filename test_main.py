@@ -5,7 +5,7 @@ import pandas as pd
 import test_trainQuery
 import json
 
-data_input = "8/22 晚 台北 台中".split(' ')
+data_input = "8/22 早 台北 台中".split(' ')
 date = data_input[0].split('/')
 if len(date[0]) != 4:
     date.insert(0, '2021')
