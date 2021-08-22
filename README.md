@@ -17,4 +17,4 @@
 [臺鐵官網-列車時刻查詢](https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/gobytime)
 
 ## 目前問題:
-- 新式樣回應 message Bug: 查詢數目大於10筆將無法顯示 (預計解決方法：)
+- 新式樣回應 message Bug: 查詢數目大於10筆將無法顯示 (預計解決方法：回應拆分為多筆訊息)
