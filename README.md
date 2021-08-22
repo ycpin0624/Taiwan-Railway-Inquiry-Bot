@@ -8,7 +8,7 @@
 
 目前僅支援顯示指定「可訂票」列車資訊，包括車次, 時間, 山海線, 與可否訂票, 並以圖像訊息回應
 
-![](images/trainbot.gif)
+<img src="images/trainbot.gif" alt="Cover" width="50%"/>
 
 訂票功能已開發，往後將陸續上載，且歡迎建議新功能。
 
