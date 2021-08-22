@@ -115,31 +115,31 @@ def handle_message(event):
                     elements.append(able_input_data)
 
         # 產生輸出樣式            
-        with open('trainData.csv', encoding='utf-8') as csvfile:
-            rows = csv.DictReader(csvfile)
-            for row in rows: 
-                if(row['訂票'] != '可'): # 不可訂票車次
-                    unable_element_data["text"] = row['車種車次']
-                    unable_element_data["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
-                        ' - ' + row['抵達時間']
-                    unable_element_data["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
+        # with open('trainData.csv', encoding='utf-8') as csvfile:
+        #     rows = csv.DictReader(csvfile)
+        #     for row in rows: 
+        #         if(row['訂票'] != '可'): # 不可訂票車次
+        #             unable_element_data["text"] = row['車種車次']
+        #             unable_element_data["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
+        #                 ' - ' + row['抵達時間']
+        #             unable_element_data["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
 
-                    unable_element.append(unable_element_data)
-                    unable_input_data_count += 1
+        #             unable_element.append(unable_element_data)
+        #             unable_input_data_count += 1
                     
-                    if unable_input_data_count == 3:
-                        unable_input_data["body"] = unable_element
-                        elements.insert(0, unable_input_data)
+        #             if unable_input_data_count == 3:
+        #                 unable_input_data["body"] = unable_element
+        #                 elements.insert(0, unable_input_data)
 
-                        unable_input_data_count == 0
-                        unable_element = []
+        #                 unable_input_data_count == 0
+        #                 unable_element = []
 
-        if unable_input_data_count != 3:
-            unable_input_data["body"] = unable_element
-            elements.insert(0, unable_input_data)
+        # if unable_input_data_count != 3:
+        #     unable_input_data["body"] = unable_element
+        #     elements.insert(0, unable_input_data)
 
-            unable_input_data_count == 0
-            unable_element = []
+        #     unable_input_data_count == 0
+        #     unable_element = []
 
         output_data = {
             "type": "carousel",
