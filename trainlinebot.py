@@ -79,47 +79,67 @@ def handle_message(event):
             "color": "#0066cc"
         })
 
-        elements = [] 
+        elements = []
+        unable_element = []
 
+        able_to_booking_file = open(
+                        'replyMessage/able_to_booking.json', 'r', encoding='utf-8')
+        able_input_file = able_to_booking_file.read()
+        able_input_data = json.loads(able_input_file)
+        able_to_booking_file.close() # 可訂票車次顯示格式
+
+        unable_to_booking_file = open(
+                        'replyMessage/unable_to_booking.json', 'r', encoding='utf-8')
+        unable_input_file = unable_to_booking_file.read()
+        unable_input_data = json.loads(unable_input_file)
+        unable_to_booking_file.close() # 不可訂票車次顯示父格式
+
+        unable_element_file = open('replyMessage/unable_element.json', 'r', encoding='utf-8')
+        unable_element_input_file = unable_element_file.read()
+        unable_element_data = json.loads(unable_element_input_file) 
+        unable_element_file.close() # 不可訂票車次顯示子格式
+
+        unable_input_data_count = 0
+                
         # 產生輸出樣式
         with open('trainData.csv', encoding='utf-8') as csvfile:
             rows = csv.DictReader(csvfile)
             for row in rows:
                 if(row['訂票'] == '可'): # 可訂票車次
-                    able_to_booking_file = open(
-                        'replyMessage/able_to_booking.json', 'r', encoding='utf-8')
-                    input_file = able_to_booking_file.read()
-                    input_data = json.loads(input_file)
-
-                    input_data["body"]["contents"][0]["text"] = row['車種車次']
-                    input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
+                    able_input_data["body"]["contents"][0]["text"] = row['車種車次']
+                    able_input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
                         ' - ' + row['抵達時間']
-                    input_data["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
-                    input_data["footer"]["contents"][0]["action"]["text"] = "booking-" + row['車種車次']
+                    able_input_data["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
+                    able_input_data["footer"]["contents"][0]["action"]["text"] = "booking-" + row['車種車次']
 
-                    elements.append(input_data)
-                    able_to_booking_file.close()
-                else: # 不可訂票車次
-                    unable_to_booking_file = open(
-                        'replyMessage/unable_to_booking.json', 'r', encoding='utf-8')
-                    input_file = unable_to_booking_file.read()
-                    input_data = json.loads(input_file)
+                    elements.append(able_input_data)
 
-                    input_data["body"]["contents"][0]["text"] = row['車種車次']
-                    input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
+        # 產生輸出樣式            
+        with open('trainData.csv', encoding='utf-8') as csvfile:
+            rows = csv.DictReader(csvfile)
+            for row in rows: 
+                if(row['訂票'] != '可'): # 不可訂票車次
+                    unable_element_data[0]["text"] = row['車種車次']
+                    unable_element_data[1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
                         ' - ' + row['抵達時間']
-                    input_data["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
+                    unable_element_data[1]["contents"][1]["contents"][1]["text"] = row['經由']
 
-                    elements.append(input_data)
-                    unable_to_booking_file.close()
+                    unable_element.append(unable_element_data)
+                    unable_input_data_count += 1
+                    
+                    if unable_input_data_count == 3:
+                        unable_input_data["body"]["contents"] = unable_element
+                        elements.insert(0, unable_input_data)
 
-        # flexMessage_a_file = open(
-        #     'replyMessage/flexMessage_a.json', 'r', encoding='utf-8')
-        # input_file = flexMessage_a_file.read()
-        # input_data = json.loads(input_file)
-        # input_data["body"]["contents"] = elements
+                        unable_input_data_count == 0
+                        unable_element = []
 
-        # elements.insert(0, input_data)
+        if unable_input_data_count != 3:
+            unable_input_data["body"]["contents"] = unable_element
+            elements.insert(0, unable_input_data)
+
+            unable_input_data_count == 0
+            unable_element = []
 
         output_data = {
             "type": "carousel",
