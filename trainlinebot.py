@@ -127,15 +127,16 @@ def handle_message(event):
                     elements = []
                     input_data_count = 0
 
+        if input_data_count != 0:
+            output_data = {
+                "type": "carousel",
+                "contents": elements
+            }
+            output_messages.append(FlexSendMessage(alt_text, output_data))
             
         able_to_booking_file.close() 
         unable_to_booking_file.close()
-
-        # qureyMessage_file = open(
-        #     'replyMessage/qureyMessage.json', 'w', encoding='utf-8')
-        # json.dump(output_data, qureyMessage_file) # 傳送結果
-        # qureyMessage_file.close()
-
+        
         line_bot_api.reply_message(event.reply_token, output_messages)
 
 if __name__ == "__main__":
