@@ -52,21 +52,11 @@ def handle_message(event):
             date[2] = '0' + date[2]
         ride_date = ''.join(date)
 
-        if data_input[1] == '早': 
-            start_time = '00:01'
-            end_time = '12:00'
-        elif data_input[1] == '中':
-            start_time = '12:00'
-            end_time = '18:00'
-        elif data_input[1] == '晚':
-            start_time = '18:00'
-            end_time = '23:59'
-        else:
-            start_time = '00:01'
-            end_time = '23:59'
+        start_time = data_input[1] + ':00'
+        end_time = data_input[2] + ':00'
 
-        start_station = data_input[2]
-        end_station = data_input[3]
+        start_station = data_input[3]
+        end_station = data_input[4]
 
         trainQuery.trainQuery(start_station, end_station, ride_date, start_time, end_time)
 
