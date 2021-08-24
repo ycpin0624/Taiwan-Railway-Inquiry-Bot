@@ -87,19 +87,25 @@ with open('trainData.csv', encoding='utf-8') as csvfile:
                 "contents": elements
             }
 
-            # output_messages.append(FlexSendMessage(alt_text, output_data))
+            output_messages.append(output_data)
             elements = []
             input_data_count = 0
 
-output_data = {
-    "type": "carousel",
-    "contents": elements
-}
+if input_data_count != 0:
+    output_data = {
+        "type": "carousel",
+        "contents": elements
+    }
 
-qureyMessage_file = open(
-    'replyMessage/qureyMessage.json', 'w', encoding='utf-8')
-json.dump(output_data, qureyMessage_file)
+    output_messages.append(output_data)
+    elements = []
+    input_data_count = 0
 
-qureyMessage_file.close()
+# qureyMessage_file = open(
+#     'replyMessage/qureyMessage.json', 'w', encoding='utf-8')
+# json.dump(output_data, )
+# qureyMessage_file.close()
+
+print(len(output_messages))
 
 print("Test Success!")
