@@ -108,7 +108,7 @@ def handle_message(event):
                     elements.append(able_input_data)
                 else: # 不可訂票車次
                     unable_input_data = json.loads(unable_input_file)
-                    unable_input_data["body"]["text"] = row['車種車次']
+                    unable_input_data["body"]["contents"][0]["text"] = row['車種車次']
                     unable_input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
                         ' - ' + row['抵達時間']
                     unable_input_data["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']

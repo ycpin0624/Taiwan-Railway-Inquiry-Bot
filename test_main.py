@@ -5,7 +5,7 @@ import pandas as pd
 import test_trainQuery
 import json
 
-data_input = "8/28 早 彰化 台南".split(' ')
+data_input = "8/30 早 彰化 台中".split(' ')
 date = data_input[0].split('/')
 if len(date[0]) != 4:
     date.insert(0, '2021')
@@ -72,7 +72,7 @@ with open('trainData.csv', encoding='utf-8') as csvfile:
             elements.append(able_input_data)
         else: # 不可訂票車次
             unable_input_data = json.loads(unable_input_file)
-            unable_input_data["body"]["text"] = row['車種車次']
+            unable_input_data["body"]["contents"][0]["text"] = row['車種車次']
             unable_input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
                 ' - ' + row['抵達時間']
             unable_input_data["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
