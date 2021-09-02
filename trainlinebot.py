@@ -54,18 +54,10 @@ def handle_message(event):
             date[1] = '0' + date[1]
         if len(date[2]) != 2:
             date[2] = '0' + date[2]
-<<<<<<< HEAD
         ride_date = '-'.join(date)
 
         start_time = data_input[1]
         end_time = data_input[2]
-=======
-        ride_date = ''.join(date)
-
-        start_time = data_input[1] + ':00'
-        end_time = data_input[2] + ':00'
-
->>>>>>> 0d7d1f95c06a6a98e4af99791ebb4f9f77ba61fb
         start_station = data_input[3]
         end_station = data_input[4]
 
