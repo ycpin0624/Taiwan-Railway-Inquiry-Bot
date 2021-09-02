@@ -59,7 +59,7 @@ def trainQuery(start_station, end_station, ride_date, start_time, end_time):
                     continue
 
                 spamwriter.writerow(
-                    [ride_date, train_number, departure_time, arrive_time, trip_type, booking])
+                    [train_type + ' ' + ride_date, train_number, departure_time, arrive_time, trip_type, booking])
 
     # format data
     data = pd.read_csv('trainInfo/trainData.csv', engine='python')
