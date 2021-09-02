@@ -2,35 +2,38 @@ import os
 import csv
 import numpy as np
 import pandas as pd
-import test_trainQuery
+import sys
 import json
+import datetime
 
-data_input = "8/30 12 15 彰化 台中".split(' ')
+sys.path.append("./trainInfo")
+import trainQuery
+
+data_input = "9/30 13 15 彰化 台中".split(' ')
+
 date = data_input[0].split('/')
 if len(date[0]) != 4:
-    date.insert(0, '2021')
+    date.insert(0, str(datetime.datetime.now().year))
 if len(date[1]) != 2:
     date[1] = '0' + date[1]
 if len(date[2]) != 2:
     date[2] = '0' + date[2]
-ride_date = ''.join(date)
+ride_date = '-'.join(date)
 
-start_time = data_input[1] + ':00'
-end_time = data_input[2] + ':00'
-
+start_time = data_input[1]
+end_time = data_input[2]
 start_station = data_input[3]
 end_station = data_input[4]
 
-test_trainQuery.trainQuery(start_station, end_station,
-                    ride_date, start_time, end_time)
+trainQuery.trainQuery(start_station, end_station, ride_date, start_time, end_time)
 
 record_a = []
 record_a.append({
-"type": "text",
-"text": "非訂位車次",
-"weight": "bold",
-"size": "xl",
-"color": "#0066cc"
+    "type": "text",
+    "text": "非訂位車次",
+    "weight": "bold",
+    "size": "xl",
+    "color": "#0066cc"
 })
 
 elements = []
@@ -48,7 +51,7 @@ unable_input_file = unable_to_booking_file.read() # 不可訂票車次顯示格�
 input_data_count = 0
         
 # 產生輸出樣式
-with open('trainData.csv', encoding='utf-8') as csvfile:
+with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
     rows = csv.DictReader(csvfile)
     for row in rows:
         if(row['訂票'] == '可'): # 可訂票車次
@@ -77,7 +80,6 @@ with open('trainData.csv', encoding='utf-8') as csvfile:
                 "contents": elements
             }
 
-            output_messages.append(output_data)
             elements = []
             input_data_count = 0
 
@@ -86,16 +88,5 @@ if input_data_count != 0:
         "type": "carousel",
         "contents": elements
     }
-
-    output_messages.append(output_data)
-    elements = []
-    input_data_count = 0
-
-# qureyMessage_file = open(
-#     'replyMessage/qureyMessage.json', 'w', encoding='utf-8')
-# json.dump(output_data, )
-# qureyMessage_file.close()
-
-print(len(output_messages))
 
 print("Test Success!")
