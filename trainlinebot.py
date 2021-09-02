@@ -49,7 +49,7 @@ def handle_message(event):
 
         date = data_input[0].split('/')
         if len(date[0]) != 4:
-            date.insert(0, datetime.datetime.now().year)
+            date.insert(0, str(datetime.datetime.now().year))
         if len(date[1]) != 2:
             date[1] = '0' + date[1]
         if len(date[2]) != 2:
