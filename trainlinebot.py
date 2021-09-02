@@ -2,8 +2,12 @@ import os
 import csv
 import numpy as np
 import pandas as pd
-import trainQuery
 import json
+import datetime
+import sys
+
+sys.path.append("./trainInfo")
+import trainQuery
 
 from flask import Flask, abort, request
 from linebot import LineBotApi, WebhookHandler
@@ -45,16 +49,15 @@ def handle_message(event):
 
         date = data_input[0].split('/')
         if len(date[0]) != 4:
-            date.insert(0, '2021')
+            date.insert(0, datetime.datetime.now().year)
         if len(date[1]) != 2:
             date[1] = '0' + date[1]
         if len(date[2]) != 2:
             date[2] = '0' + date[2]
-        ride_date = ''.join(date)
+        ride_date = '-'.join(date)
 
-        start_time = data_input[1] + ':00'
-        end_time = data_input[2] + ':00'
-
+        start_time = data_input[1]
+        end_time = data_input[2]
         start_station = data_input[3]
         end_station = data_input[4]
 
@@ -84,7 +87,7 @@ def handle_message(event):
         input_data_count = 0
                 
         # 產生輸出樣式
-        with open('trainData.csv', encoding='utf-8') as csvfile:
+        with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
             rows = csv.DictReader(csvfile)
             for row in rows:
                 if(row['訂票'] == '可'): # 可訂票車次

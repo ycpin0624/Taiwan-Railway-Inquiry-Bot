@@ -8,6 +8,8 @@ import os
 import csv
 import numpy as np
 import pandas as pd
+import datetime
+
 
 def trainQuery(start_station, end_station,
                ride_date, start_time, end_time):
@@ -109,3 +111,22 @@ def trainQuery(start_station, end_station,
                                  dict['take_time'], dict['type'], dict['audlt_ticket'], dict['child_ticket'], dict['senior_ticket'], dict['booking']])
 
     gobytime_chrome.quit()
+
+
+data_input = "9/5 12 15 彰化 台中".split(' ')
+
+date = data_input[0].split('/')
+if len(date[0]) != 4:
+    date.insert(0, str(datetime.datetime.now().year))
+if len(date[1]) != 2:
+    date[1] = '0' + date[1]
+if len(date[2]) != 2:
+    date[2] = '0' + date[2]
+ride_date = '-'.join(date)
+
+start_time = data_input[1]
+end_time = data_input[2]
+start_station = data_input[3]
+end_station = data_input[4]
+
+trainQuery(start_station, end_station, ride_date, start_time, end_time)
