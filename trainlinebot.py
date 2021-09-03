@@ -98,7 +98,7 @@ def handle_message(event):
         with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
             rows = csv.DictReader(csvfile)
 
-            if len(rows) == 0:
+            if list(rows) == []:
                 line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text="查無列車資料，請更改選取範圍!"))
 
