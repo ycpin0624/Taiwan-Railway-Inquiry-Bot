@@ -12,11 +12,6 @@ import datetime
 import sys
 
 sys.path.append("./trainInfo")
-<<<<<<< HEAD
-=======
-import trainQuery
->>>>>>> ff024ac485bbe18f311e4ee2841a97f4080c69b8
-
 
 app = Flask(__name__)
 
