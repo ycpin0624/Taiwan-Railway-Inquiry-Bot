@@ -60,12 +60,16 @@ def handle_message(event):
             end_time = data_input[2]
             start_station = data_input[3]
             end_station = data_input[4]
+        except:
+            line_bot_api.reply_message(
+                event.reply_token, TextSendMessage(text="格式輸入錯誤!\n\n正確格式為：\n年(非必填)/月/日 時間 時間 起點 終點"))
 
+        try:
             trainQuery.trainQuery(start_station, end_station,
                                   ride_date, start_time, end_time)
         except:
             line_bot_api.reply_message(
-                event.reply_token, TextSendMessage(text="格式錯誤!\n正確格式為：年(非必填)/月/日 時間 時間 起點 終點"))
+                event.reply_token, TextSendMessage(text="資料輸入錯誤，查詢失敗！"))
 
         record_a = []
         record_a.append({
@@ -93,6 +97,11 @@ def handle_message(event):
         # 產生輸出樣式
         with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
             rows = csv.DictReader(csvfile)
+
+            if len(rows) == 0:
+                line_bot_api.reply_message(
+                event.reply_token, TextSendMessage(text="查無列車資料，請更改選取範圍!"))
+
             for row in rows:
                 if(row['訂票'] == '可'):  # 可訂票車次
                     able_input_data = json.loads(able_input_file)
