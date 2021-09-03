@@ -2,8 +2,6 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendM
 from linebot.exceptions import InvalidSignatureError
 from linebot import LineBotApi, WebhookHandler
 from flask import Flask, abort, request
-import trainQuery
-import os
 import csv
 import numpy as np
 import pandas as pd
@@ -12,6 +10,7 @@ import datetime
 import sys
 
 sys.path.append("./trainInfo")
+import trainQuery
 
 app = Flask(__name__)
 
