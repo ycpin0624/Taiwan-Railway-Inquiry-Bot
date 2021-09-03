@@ -48,6 +48,9 @@ def handle_message(event):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9cc99a996535e482e7182164a78cd712005614f3
 =======
 >>>>>>> 9cc99a996535e482e7182164a78cd712005614f3
         try:
@@ -75,6 +78,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text="資料輸入錯誤，查詢失敗！"))
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         date = data_input[0].split('/')
         if len(date[0]) != 4:
@@ -92,6 +96,8 @@ def handle_message(event):
 
         trainQuery.trainQuery(start_station, end_station, ride_date, start_time, end_time)
 >>>>>>> 162d4ddfebace4ed2536bb2c5a8e4c0dae217149
+=======
+>>>>>>> 9cc99a996535e482e7182164a78cd712005614f3
 =======
 >>>>>>> 9cc99a996535e482e7182164a78cd712005614f3
 
