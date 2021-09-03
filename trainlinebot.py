@@ -1,3 +1,8 @@
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
+from linebot.exceptions import InvalidSignatureError
+from linebot import LineBotApi, WebhookHandler
+from flask import Flask, abort, request
+import trainQuery
 import os
 import csv
 import numpy as np
@@ -7,12 +12,7 @@ import datetime
 import sys
 
 sys.path.append("./trainInfo")
-import trainQuery
 
-from flask import Flask, abort, request
-from linebot import LineBotApi, WebhookHandler
-from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 
 app = Flask(__name__)
 
@@ -20,6 +20,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(
     'jJisTObx7OduP362CboSPS8X3vj9XBeSv8IYFwI8f+/v7EIjZfZkuJtJmigbcNNmgzXEV0WRoKe9h7dMOoU6Un6Q3Mt395VW5b1RgGqgatjfuuWOGT0PXfw7t/vOO3c2G30IA8aVgZ5c4YygTvdLIQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('428e771830a916031feb0a3f0d239ce5')
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -47,21 +48,26 @@ def handle_message(event):
 
         data_input = event.message.text.split(' ')
 
-        date = data_input[0].split('/')
-        if len(date[0]) != 4:
-            date.insert(0, str(datetime.datetime.now().year))
-        if len(date[1]) != 2:
-            date[1] = '0' + date[1]
-        if len(date[2]) != 2:
-            date[2] = '0' + date[2]
-        ride_date = '-'.join(date)
+        try:
+            date = data_input[0].split('/')
+            if len(date[0]) != 4:
+                date.insert(0, str(datetime.datetime.now().year))
+            if len(date[1]) != 2:
+                date[1] = '0' + date[1]
+            if len(date[2]) != 2:
+                date[2] = '0' + date[2]
+            ride_date = '-'.join(date)
 
-        start_time = data_input[1]
-        end_time = data_input[2]
-        start_station = data_input[3]
-        end_station = data_input[4]
+            start_time = data_input[1]
+            end_time = data_input[2]
+            start_station = data_input[3]
+            end_station = data_input[4]
 
-        trainQuery.trainQuery(start_station, end_station, ride_date, start_time, end_time)
+            trainQuery.trainQuery(start_station, end_station,
+                                  ride_date, start_time, end_time)
+        except:
+            line_bot_api.reply_message(
+                event.reply_token, TextSendMessage(text="格式錯誤!\n正確格式為：年(非必填)/月/日 時間 時間 起點 終點"))
 
         record_a = []
         record_a.append({
@@ -77,20 +83,20 @@ def handle_message(event):
         alt_text = "查詢成功！"
 
         able_to_booking_file = open(
-                        'replyMessage/able_to_booking.json', 'r', encoding='utf-8')
-        able_input_file = able_to_booking_file.read() # 可訂票車次顯示格式
+            'replyMessage/able_to_booking.json', 'r', encoding='utf-8')
+        able_input_file = able_to_booking_file.read()  # 可訂票車次顯示格式
 
         unable_to_booking_file = open(
-                        'replyMessage/unable_to_booking.json', 'r', encoding='utf-8')
-        unable_input_file = unable_to_booking_file.read() # 不可訂票車次顯示格式
-        
+            'replyMessage/unable_to_booking.json', 'r', encoding='utf-8')
+        unable_input_file = unable_to_booking_file.read()  # 不可訂票車次顯示格式
+
         input_data_count = 0
-                
+
         # 產生輸出樣式
         with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
             rows = csv.DictReader(csvfile)
             for row in rows:
-                if(row['訂票'] == '可'): # 可訂票車次
+                if(row['訂票'] == '可'):  # 可訂票車次
                     able_input_data = json.loads(able_input_file)
                     able_input_data["body"]["contents"][0]["text"] = row['車種車次']
                     able_input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
@@ -99,7 +105,7 @@ def handle_message(event):
                     able_input_data["footer"]["contents"][0]["action"]["text"] = "booking-" + row['車種車次']
 
                     elements.append(able_input_data)
-                else: # 不可訂票車次
+                else:  # 不可訂票車次
                     unable_input_data = json.loads(unable_input_file)
                     unable_input_data["body"]["contents"][0]["text"] = row['車種車次']
                     unable_input_data["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = row['出發時間'] + \
@@ -107,7 +113,7 @@ def handle_message(event):
                     unable_input_data["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = row['經由']
 
                     elements.append(unable_input_data)
-                
+
                 input_data_count += 1
 
                 if input_data_count == 10:
@@ -116,7 +122,8 @@ def handle_message(event):
                         "contents": elements
                     }
 
-                    output_messages.append(FlexSendMessage(alt_text, output_data))
+                    output_messages.append(
+                        FlexSendMessage(alt_text, output_data))
                     elements = []
                     input_data_count = 0
 
@@ -126,11 +133,12 @@ def handle_message(event):
                 "contents": elements
             }
             output_messages.append(FlexSendMessage(alt_text, output_data))
-            
-        able_to_booking_file.close() 
+
+        able_to_booking_file.close()
         unable_to_booking_file.close()
-        
+
         line_bot_api.reply_message(event.reply_token, output_messages)
+
 
 if __name__ == "__main__":
     app.run()
