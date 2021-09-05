@@ -46,6 +46,10 @@ def handle_message(event):
 
         data_input = event.message.text.split(' ')
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 0941d68205233e66021b640ac29b77f3116c6e24
         try:
             date = data_input[0].split('/')
             if len(date[0]) != 4:
@@ -70,6 +74,26 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text="資料輸入錯誤，查詢失敗！"))
+<<<<<<< HEAD
+=======
+=======
+        date = data_input[0].split('/')
+        if len(date[0]) != 4:
+            date.insert(0, str(datetime.datetime.now().year))
+        if len(date[1]) != 2:
+            date[1] = '0' + date[1]
+        if len(date[2]) != 2:
+            date[2] = '0' + date[2]
+        ride_date = '-'.join(date)
+
+        start_time = data_input[1]
+        end_time = data_input[2]
+        start_station = data_input[3]
+        end_station = data_input[4]
+
+        trainQuery.trainQuery(start_station, end_station, ride_date, start_time, end_time)
+>>>>>>> 162d4ddfebace4ed2536bb2c5a8e4c0dae217149
+>>>>>>> 0941d68205233e66021b640ac29b77f3116c6e24
 
         record_a = []
         record_a.append({
