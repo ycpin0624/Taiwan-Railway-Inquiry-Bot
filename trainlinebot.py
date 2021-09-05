@@ -67,6 +67,14 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text="資料輸入錯誤，查詢失敗！"))
+        
+        # check output data
+        with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
+            rows = csv.DictReader(csvfile)
+
+            if list(rows) == []:
+                line_bot_api.reply_message(
+                event.reply_token, TextSendMessage(text="查無列車資料，請更改選取範圍!"))
 
         record_a = []
         record_a.append({
@@ -95,10 +103,6 @@ def handle_message(event):
         with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
             rows = csv.DictReader(csvfile)
 
-            if list(rows) == []:
-                line_bot_api.reply_message(
-                event.reply_token, TextSendMessage(text="查無列車資料，請更改選取範圍!"))
-
             for row in rows:
                 if(row['訂票'] == '可'):  # 可訂票車次
                     able_input_data = json.loads(able_input_file)
@@ -126,8 +130,7 @@ def handle_message(event):
                         "contents": elements
                     }
 
-                    output_messages.append(
-                        FlexSendMessage(alt_text, output_data))
+                    output_messages.append(FlexSendMessage(alt_text, output_data))
                     elements = []
                     input_data_count = 0
 

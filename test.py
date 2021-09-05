@@ -9,7 +9,7 @@ import datetime
 sys.path.append("./trainInfo")
 import trainQuery
 
-data_input = "9/30 3 14 彰化 台中".split(' ')
+data_input = "9/17 12 16 彰化 台中".split(' ')
 
 date = data_input[0].split('/')
 if len(date[0]) != 4:
@@ -50,6 +50,7 @@ unable_to_booking_file = open(
 unable_input_file = unable_to_booking_file.read()  # 不可訂票車次顯示格式
 
 input_data_count = 0
+count = 0
 
 # 產生輸出樣式
 with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
@@ -57,6 +58,12 @@ with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
 
     if list(rows) == []:
         print("查無列車資料，請更改選取範圍!")
+
+
+# 產生輸出樣式
+with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
+    rows = csv.DictReader(csvfile)
+
 
     for row in rows:
         if(row['訂票'] == '可'):  # 可訂票車次
@@ -78,6 +85,7 @@ with open('trainInfo/trainData.csv', encoding='utf-8') as csvfile:
             elements.append(unable_input_data)
 
         input_data_count += 1
+        count += 1
 
         if input_data_count == 10:
             output_data = {
@@ -94,4 +102,4 @@ if input_data_count != 0:
         "contents": elements
     }
 
-print("Test Success!")
+print("Test Success!", count)
