@@ -9,7 +9,7 @@ import datetime
 sys.path.append("./trainInfo")
 import trainQuery
 
-data_input = "9/30 3 4 彰化 台中".split(' ')
+data_input = "9/30 3 14 彰化 台中".split(' ')
 
 date = data_input[0].split('/')
 if len(date[0]) != 4:
