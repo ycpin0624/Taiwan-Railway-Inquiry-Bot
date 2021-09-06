@@ -6,7 +6,7 @@ import pandas as pd
 import operator
 
 app_id = 'bbdd93559e754dc68c2e502ced7664dc'
-app_key = 'KcPetJI4YFTknxh5MUixHlq5qAQ'
+app_key = ''
 
 
 def trainQuery(start_station, end_station, ride_date, start_time, end_time):
