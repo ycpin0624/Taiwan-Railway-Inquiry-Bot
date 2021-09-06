@@ -5,8 +5,8 @@ import csv
 import pandas as pd
 import operator
 
-app_id = 'bbdd93559e754dc68c2e502ced7664dc'
-app_key = ''
+app_id = 'INPUT YOUR OWN ID'
+app_key = 'INPUT YOUR OWN KEY'
 
 
 def trainQuery(start_station, end_station, ride_date, start_time, end_time):
