@@ -59,9 +59,15 @@ def handle_message(event):
             end_time = data_input[2]
             start_station = data_input[3]
             end_station = data_input[4]
+
+            if not start_time.isdigit():
+                raise Exception('')
+            if not end_time.isdigit():
+                raise Exception('')
         except:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text="格式輸入錯誤!\n正確格式為：年(非必填)/月/日 時間 時間 起點 終點"))
+                
         try:
             trainQuery.trainQuery(start_station, end_station, ride_date, start_time, end_time)
         except:

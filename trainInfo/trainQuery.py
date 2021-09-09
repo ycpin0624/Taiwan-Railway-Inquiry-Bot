@@ -18,6 +18,10 @@ def trainQuery(start_station, end_station, ride_date, start_time, end_time):
     start_station = start_station.replace('台', '臺', 1)
     end_station = end_station.replace('台', '臺', 1)
 
+    train_code_data = pd.read_csv("trainInfo/trainCode.csv", index_col="車站")
+    train_code_data.loc[start_station]
+    train_code_data.loc[end_station]
+
     with open('trainInfo/trainData.csv', 'w', newline='', encoding='utf-8') as csvfile:
         spamwriter = csv.writer(csvfile, dialect='excel')
         spamwriter.writerow(
