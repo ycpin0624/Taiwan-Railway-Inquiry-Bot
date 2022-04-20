@@ -14,9 +14,9 @@ import trainQuery
 
 app = Flask(__name__)
 
-# LINE 聊天機器人的基本資料 (input yours id)
-line_bot_api = LineBotApi('')
-handler = WebhookHandler('')
+# LINE 聊天機器人的基本資料
+line_bot_api = LineBotApi('INPUT YOUR OWN ID')
+handler = WebhookHandler('INPUT YOUR OWN ID')
 
 
 @app.route("/callback", methods=['POST'])
